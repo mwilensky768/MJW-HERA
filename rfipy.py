@@ -435,7 +435,7 @@ class RFI:
                         Amp.update(self.one_d_hist_prepare(flag_slice=flag,
                                                            time_drill=uniques[k],
                                                            coarse_band_ignore=coarse_band_ignore,
-                                                           fit=fit, bins=bins,
+                                                           fit=fit[flag_slice], bins=bins,
                                                            fit_window=fit_window,
                                                            bin_window=bin_window))
                     self.one_d_hist_plot(fig, ax, Amp, self.obs + ' Drill ' +
@@ -449,7 +449,7 @@ class RFI:
                         Amp.update(self.one_d_hist_prepare(flag_slice=flag,
                                                            freq_drill=uniques[k],
                                                            coarse_band_ignore=coarse_band_ignore,
-                                                           fit=fit, bins=bins,
+                                                           fit=fit[flag_slice], bins=bins,
                                                            fit_window=fit_window,
                                                            bin_window=bin_window))
                     self.one_d_hist_plot(fig, ax, Amp, self.obs + ' Drill ' +
