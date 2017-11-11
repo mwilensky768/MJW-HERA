@@ -6,13 +6,13 @@ import glob
 outpath = '/data4/mwilensky/catalogs/2458056/uncalibrated/'
 writepath = '/data4/mwilensky/temperatures/2458056/uncalibrated/'
 flag_slices = ['Unflagged', 'All']
-pathlist = glob.glob('/data6/HERA/data/2458042/*.uv')
+pathlist = glob.glob('/data6/HERA/data/2458056/reprocessed_Nov1/*.uv')
 catalog_type = 'waterfall'
 plot_type = 'freq-time'
-band = {'Unflagged': 'fit', 'All': [1e-0.5, 1e+4]}
+band = {'Unflagged': 'fit', 'All': [10**(-0.5), 1e+4]}
 fit = {'Unflagged': True, 'All': False}
 fit_window = [0, 1e+012]
-bin_window = [1e-7.5, 1]
+bin_window = [10**(-7.5), 1]
 bad_time_indices = []
 auto_remove = True
 good_freq_indices = range(64, 960)
