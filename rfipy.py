@@ -89,29 +89,23 @@ class RFI:
 
         flags = self.flag_operations(flag_slice=flag_slice)
         values = np.absolute(self.data_array)
-        drill_label = ''
-        exc_label = ''
 
         if time_drill:
             values = values[time_drill:time_drill + 1, :, :, :, :]
             flags = flags[time_drill:time_drill + 1, :, :, :, :]
-            drill_label = 't = %i' % (time_drill)
         if time_exc:
             values = np.concatenate((values[:time_exc, :, :, :, :],
                                      values[time_exc + 1:, :, :, :, :]), axis=0)
             flags = np.concatenate((flags[:time_exc, :, :, :, :],
                                     flags[time_exc + 1:, :, :, :, :]), axis=0)
-            exc_label = 't != %i' % (time_exc)
         if freq_drill:
             values = values[:, :, :, freq_drill:freq_drill + 1, :]
             flags = flags[:, :, :, freq_drill:freq_drill + 1, :]
-            drill_label = 'f = %.1f Mhz' % (self.UV.freq_array[0, freq_drill])
         if freq_exc:
             values = np.concatenate((values[:, :, :, :freq_exc, :],
                                      values[:, :, :, freq_exc + 1:, :]), axis=3)
             flags = np.concatenate((flags[:, :, :, :freq_exc, :],
                                     flags[:, :, :, freq_exc + 1:, :]), axis=3)
-            exc_label = 'f != %.1f Mhz' % (self.UV.freq_array[0, freq_exc])
 
         if bins is 'auto':
             MIN = np.amin(values[values > 0])
@@ -176,7 +170,7 @@ class RFI:
             np.save('%s%s_%s_bins.npy' % (writepath, self.obs, flag_slice), bins)
             np.save('%s%s_%s_fit.npy' % (writepath, self.obs, flag_slice), fit)
 
-        return({'%s %s %s' % (flag_slice, drill_label, exc_label): (m, bins, fit)})
+        return({'%s' % (flag_slice, drill_label, exc_label): (m, bins, fit)})
 
     def waterfall_hist_prepare(self, band, plot_type='freq-time', fraction=True,
                                flag_slice='Unflagged'):
@@ -271,7 +265,8 @@ class RFI:
 
         return({'Affected': avg_affected, 'Unaffected': avg_unaffected})
 
-    def one_d_hist_plot(self, fig, ax, data, title, ylog=True, xlog=True, res_ax=[]):  # Data/title are tuples if multiple hists
+    def one_d_hist_plot(self, fig, ax, data, title, ylog=True, xlog=True,
+                        res_ax=[]):  # Data/title are tuples if multiple hists
 
         zorder = {'Unflagged': 8, 'Flagged': 6, 'And': 4, 'XOR': 2, 'All': 0}
 
@@ -284,7 +279,8 @@ class RFI:
             ax.step(data[label][1][:-1], data[label][0], where='pre', label=label,
                     zorder=zorder[label[:label.find(' ')]])
             if len(data[label][2]) > 1:
-                ax.plot(bin_centers, data[label][2], label=label + ' Fit', zorder=10)
+                ax.plot(bin_centers, data[label][2], label=label + ' Fit',
+                        zorder=10)
                 if res_ax:
                     residual = data[label][0] - data[label][2]
                     if np.all(data[label][2] > 0):
