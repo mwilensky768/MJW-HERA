@@ -3,10 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import glob
 
-outpath = '/data4/mwilensky/catalogs/2458056/uncalibrated/'
-writepath = '/data4/mwilensky/temperatures/2458056/uncalibrated/'
+outpath = '/data4/mwilensky/catalogs/2458056/calibrated/'
+writepath = '/data4/mwilensky/temperatures/2458056/calibrated/'
 flag_slices = ['Unflagged', 'All']
-pathlist = glob.glob('/data6/HERA/data/2458056/reprocessed_Nov1/*.uv')
+pathlist = glob.glob('/data6/HERA/data/2458056/reprocessed_Nov1/*.uvOR')
 catalog_type = 'waterfall'
 plot_type = 'freq-time'
 band = {'Unflagged': 'fit', 'All': [10**(-0.5), 1e+4]}
@@ -23,7 +23,7 @@ ant_pol_freqs = [316, 317, 318, 319, 320, 321, 322, 406, 787, 788, 849, 869, 870
 
 for path in pathlist:
     start = path.find('zen.')
-    end = path.find('.uv')
+    end = path.find('.uvOR')
     obs = path[start:end]
 
     RFI = rfi.RFI(obs, path, filetype='miriad', bad_time_indices=bad_time_indices,
