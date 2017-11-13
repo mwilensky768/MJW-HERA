@@ -170,7 +170,7 @@ class RFI:
             np.save('%s%s_%s_bins.npy' % (writepath, self.obs, flag_slice), bins)
             np.save('%s%s_%s_fit.npy' % (writepath, self.obs, flag_slice), fit)
 
-        return({'%s' % (flag_slice, drill_label, exc_label): (m, bins, fit)})
+        return({'%s' % (flag_slice): (m, bins, fit)})
 
     def waterfall_hist_prepare(self, band, plot_type='freq-time', fraction=True,
                                flag_slice='Unflagged'):
@@ -277,7 +277,7 @@ class RFI:
         bin_centers = data[x][1][:-1] + 0.5 * bin_widths
         for label in data:
             ax.step(data[label][1][:-1], data[label][0], where='pre', label=label,
-                    zorder=zorder[label[:label.find(' ')]])
+                    zorder=zorder[label])
             if len(data[label][2]) > 1:
                 ax.plot(bin_centers, data[label][2], label=label + ' Fit',
                         zorder=10)
